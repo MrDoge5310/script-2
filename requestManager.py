@@ -86,11 +86,15 @@ class RequestManager:
                 pass
 
     def get_competitor(self, adv_):
+        if adv_.trade_type = 'SELL':
+            tr_tp = "BUY"
+        else:
+            tr_tp = "SELL"
         params = self.params
         print(adv_.symbol)
         params['asset'] = adv_.symbol[:3]
         params['transAmount'] = None
-        params["tradeType"] = adv_.trade_type
+        params["tradeType"] = tr_tp
         params["payTypes"] = adv_.payTypes
 
         response = self.session.post(self.market_link, json=self.params, stream=True)
