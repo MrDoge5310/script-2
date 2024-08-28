@@ -86,7 +86,7 @@ class RequestManager:
                 pass
 
     def get_competitor(self, adv_):
-        if adv_.trade_type = 'SELL':
+        if adv_.trade_type == 'SELL':
             tr_tp = "BUY"
         else:
             tr_tp = "SELL"
@@ -105,11 +105,10 @@ class RequestManager:
         self.get_usdt_competitor()
         usdt_competitor = self.usdt_competitor
 
-        if adv_.trade_type == 'BUY':
+        if tr_tp == 'BUY':
             buy_usdt_price = round(float(usdt_competitor['adv']['price']) + 0.01, 2)
-        elif adv_.trade_type == 'SELL':
+        elif tr_tp == 'SELL':
             buy_usdt_price = round(float(usdt_competitor['adv']['price']) - 0.01, 2)
-
 
         for adv in advertisements:
             adv_max_cur = float(adv['adv']['tradableQuantity']) * float(adv['adv']['price'])
@@ -118,14 +117,13 @@ class RequestManager:
                 adv_max = adv_max_cur
             adv_min = float(adv['adv']['minSingleTransAmount'])
 
-            if adv_.trade_type == 'BUY':
+            if tr_tp == 'BUY':
                 cur_clearance = float(adv['adv']['price']) / adv_.spot_price - buy_usdt_price
-            elif adv_.trade_type == 'SELL':
+            elif tr_tp == 'SELL':
                 cur_clearance = buy_usdt_price - float(adv['adv']['price']) / adv_.spot_price
 
             minSingleTransAmount = int(adv_.min_order_limit)
             maxSingleTransAmount = int(adv_.max_order_limit)
-
 
             if (minSingleTransAmount + 5000 <= adv_max
                     and maxSingleTransAmount > adv_min

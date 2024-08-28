@@ -191,7 +191,7 @@ class Ui_MainWindow(object):
             self.sell_eth_limits_label.setText(f"{ad['min_order_limit']} - {ad['max_order_limit']}")
             if ad['active']:
                 self.sell_eth_spead_label.setText(f"Зазор: {ad['cur_clearance']} грн, "
-                                                  f"{round(ad['cur_clearance'] / 0.4, 2)}%")
+                                                  f"{round(ad.get('cur_clearance', 0) / 0.4, 2)}%")
             else:
                 self.sell_eth_spead_label.setText("Неактивно")
 
@@ -200,7 +200,7 @@ class Ui_MainWindow(object):
             self.buy_eth_limits_label.setText(f"{ad['min_order_limit']} - {ad['max_order_limit']}")
             if ad['active']:
                 self.buy_eth_spead_label.setText(f"Зазор: {ad['cur_clearance']} грн, "
-                                                 f"{round(ad['cur_clearance'] / 0.4, 2)}%")
+                                                 f"{round(ad.get('cur_clearance', 0) / 0.4, 2)}%")
             else:
                 self.buy_eth_spead_label.setText("Неактивно")
         ad = ads.get('sell_btc_adv', None)
@@ -208,7 +208,7 @@ class Ui_MainWindow(object):
             self.sell_btc_limits_label.setText(f"{ad['min_order_limit']} - {ad['max_order_limit']}")
             if ad['active']:
                 self.sell_btc_spead_label.setText(f"Зазор: {ad['cur_clearance']} грн, "
-                                                  f"{round(ad['cur_clearance'] / 0.4, 2)}%")
+                                                  f"{round(ad.get('cur_clearance', 0) / 0.4, 2)}%")
             else:
                 self.sell_btc_spead_label.setText("Неактивно")
         ad = ads.get('buy_btc_adv', None)
@@ -216,19 +216,19 @@ class Ui_MainWindow(object):
             self.buy_btc_limits_label.setText(f"{ad['min_order_limit']} - {ad['max_order_limit']}")
             if ad['active']:
                 self.buy_btc_spead_label.setText(f"Зазор: {ad['cur_clearance']} грн, "
-                                                  f"{round(ad['cur_clearance'] / 0.4, 2)}%")
+                                                  f"{round(ad.get('cur_clearance', 0) / 0.4, 2)}%")
             else:
                 self.buy_btc_spead_label.setText("Неактивно")
         ad = ads.get('sell_bnb_adv', None)
         if ad:
             self.sell_bnb_limits_label.setText(f"{ad['min_order_limit']} - {ad['max_order_limit']}")
             self.sell_bnb_spead_label.setText(f"Зазор: {ad['cur_clearance']} грн, "
-                                              f"{round(ad['cur_clearance'] / 0.4, 2)}%")
+                                              f"{round(ad.get('cur_clearance', 0) / 0.4, 2)}%")
         ad = ads.get('buy_bnb_adv', None)
         if ad:
             self.buy_bnb_limits_label.setText(f"{ad['min_order_limit']} - {ad['max_order_limit']}")
             self.buy_bnb_spead_label.setText(f"Зазор: {ad['cur_clearance']} грн, "
-                                              f"{round(ad['cur_clearance'] / 0.4, 2)}%")
+                                              f"{round(ad.get('cur_clearance', 0) / 0.4, 2)}%")
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
