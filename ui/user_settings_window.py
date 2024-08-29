@@ -10,6 +10,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import json
+import os
 
 
 class Ui_user_settings_window(object):
@@ -84,7 +85,8 @@ class Ui_user_settings_window(object):
                 "secret_key": secret_key,
                 "userNo":  user_no}
 
-        with open('../keys.json', 'w') as outfile:
+        path = os.path.abspath("keys.json")
+        with open(path, 'w') as outfile:
             json.dump(data, outfile)
 
         self.success.exec_()

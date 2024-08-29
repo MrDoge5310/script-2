@@ -24,7 +24,6 @@ class Advertisment:
         data = self.rm.get_user_adv_data(self.No)
 
         if data:
-            print(data)
             self.trade_type = data['tradeType']
             self.symbol = data['asset'] + "USDT"
             self.min_order_limit = data['minSingleTransAmount']
@@ -33,11 +32,19 @@ class Advertisment:
             for tm in data['tradeMethods']:
                 self.payTypes.append(tm['payType'])
 
-    def switch_activity(self, trigger):
+    def switch_activity(self, trigger, clearance):
+
         if trigger:
             self.active = True
         else:
             self.active = False
+
+        try:
+            self.min_clearance = float(clearance)
+        except:
+            self.min_clearance = 1
+
+        print(f"Для обьявления {self.trade_type} {self.symbol[:3]} установлен минимальный зазор: {self.min_clearance}")
 
     def get_info(self):
         return {

@@ -100,7 +100,6 @@ class RequestManager:
         response = self.session.post(self.market_link, json=self.params, stream=True)
         response = response.json()
         advertisements = response['data']
-        print(advertisements)
 
         self.get_usdt_competitor()
         usdt_competitor = self.usdt_competitor
@@ -130,10 +129,9 @@ class RequestManager:
                     and adv_max - adv_min >= 4000
                     and adv['adv']['advNo'] != adv_.No
                     and cur_clearance > adv_.min_clearance):
-                print(f"Спред ETH--> {round(cur_clearance, 2)} UAH --> {round(cur_clearance / 0.4, 2)}% --> {adv['advertiser']['nickName']}")
+                print(f"Спред {adv_.trade_type} {adv_.symbol[:3]}--> {round(cur_clearance, 2)} UAH --> {round(cur_clearance / 0.4, 2)}% --> {adv['advertiser']['nickName']}")
                 adv_.current_clearance = round(cur_clearance, 2)
                 adv_.price = adv['adv']['price']
-                print(cur_clearance)
                 break
             else:
                 pass
@@ -149,11 +147,12 @@ class RequestManager:
         url = self.generateSignaturedUrl(endpoint, self.user_data['secret_key'], params)
 
         response = self.session.post(url, headers=headers)
-        print(response.status_code)
         if response.status_code == 200:
             data = response.json()
+            print(f"Данные обьявления {data['data']['tradeType']} {data['data']['asset']} успешно получены")
             return data['data']
         else:
+            print(f"Данные обьявления №: {adNo}, НЕ получены")
             return None
 
     def update_adv(self, adv):
@@ -168,9 +167,8 @@ class RequestManager:
         url = self.generateSignaturedUrl(endpoint, self.user_data['secret_key'])
         try:
             response = self.session.post(url, headers=headers, data=json.dumps(param))
-            print(response.status_code)
             data = response.json()
-            print(data)
+            print(f"Обьявление {adv.trade_type} {adv.symbol[:3]} обновлено")
             print("---------------------")
         except:
              print("Помилка відправки запиту")

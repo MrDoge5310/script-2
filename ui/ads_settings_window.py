@@ -10,6 +10,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import json
+import os
 
 
 class Ui_ads_settings_wnd(object):
@@ -89,33 +90,34 @@ class Ui_ads_settings_wnd(object):
         self.buy_bnb_no_input.setPlaceholderText(_translate("ads_settings_wnd", "Номер обьявления покупка BNB"))
 
     def save_settings(self):
+        path = os.path.abspath('ads_no.json')
         try:
-            with open('../ads_no.json', 'r') as f:
+            with open(path, 'r') as f:
                 data = json.load(f)
+
+            print(data)
+
+            if self.sell_eth_no_input.text() != '':
+                data['sell_eth_no'] = self.sell_eth_no_input.text()
+
+            if self.buy_eth_no_input.text() != '':
+                data['buy_eth_no'] = self.buy_eth_no_input.text()
+
+            if self.sell_btc_no_input.text() != '':
+                data['sell_btc_no'] = self.sell_btc_no_input.text()
+
+            if self.buy_btc_no_input.text() != '':
+                data['buy_btc_no'] = self.buy_btc_no_input.text()
+
+            if self.sell_bnb_no_input.text() != '':
+                data['sell_bnb_no'] = self.sell_bnb_no_input.text()
+
+            if self.buy_bnb_no_input.text() != '':
+                data['buy_bnb_no'] = self.buy_bnb_no_input.text()
+
+            with open(path, 'w') as f:
+                json.dump(data, f)
+
+            self.success.exec_()
         except:
             self.warning.exec_()
-
-        print(data)
-
-        if self.sell_eth_no_input.text() != '':
-            data['sell_eth_no'] = self.sell_eth_no_input.text()
-
-        if self.buy_eth_no_input.text() != '':
-            data['buy_eth_no'] = self.buy_eth_no_input.text()
-
-        if self.sell_btc_no_input.text() != '':
-            data['sell_btc_no'] = self.sell_btc_no_input.text()
-
-        if self.buy_btc_no_input.text() != '':
-            data['buy_btc_no'] = self.buy_btc_no_input.text()
-
-        if self.sell_bnb_no_input.text() != '':
-            data['sell_bnb_no'] = self.sell_bnb_no_input.text()
-
-        if self.buy_bnb_no_input.text() != '':
-            data['buy_bnb_no'] = self.buy_bnb_no_input.text()
-
-        with open('../ads_no.json', 'w') as f:
-            json.dump(data, f)
-
-        self.success.exec_()

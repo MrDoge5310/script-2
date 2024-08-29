@@ -1,9 +1,9 @@
 import json
 import os
+from time import sleep
 from advertisments import Advertisment
 from ui_manager import app, ui, MainWindow
 import threading
-from requestManager import RequestManager
 
 
 class Script:
@@ -34,15 +34,15 @@ class Script:
         if buy_eth_no:
             self.buy_eth_adv = Advertisment(buy_eth_no)
 
-        sell_btc_no = data.get("sell_btc_no",  None)
+        sell_btc_no = data.get("sell_btc_no", None)
         if sell_btc_no:
             self.sell_btc_adv = Advertisment(sell_btc_no)
 
-        buy_btc_no = data.get("buy_btc_no",  None)
+        buy_btc_no = data.get("buy_btc_no", None)
         if buy_btc_no:
             self.buy_btc_adv = Advertisment(buy_btc_no)
 
-        sell_bnb_no = data.get("sell_bnb_no",  None)
+        sell_bnb_no = data.get("sell_bnb_no", None)
         if sell_bnb_no:
             self.sell_bnb_adv = Advertisment(sell_bnb_no)
 
@@ -50,20 +50,20 @@ class Script:
         if buy_bnb_no:
             self.buy_bnb_adv = Advertisment(buy_bnb_no)
 
-    def switch_activity(self, asset, trigger):
+    def switch_activity(self, asset, trigger, clearance):
         match asset:
             case 'sell_eth':
-                self.sell_eth_adv.switch_activity(trigger)
+                self.sell_eth_adv.switch_activity(trigger, clearance)
             case 'buy_eth':
-                self.buy_eth_adv.switch_activity(trigger)
+                self.buy_eth_adv.switch_activity(trigger, clearance)
             case 'sell_btc':
-                self.sell_btc_adv.switch_activity(trigger)
+                self.sell_btc_adv.switch_activity(trigger, clearance)
             case 'buy_btc':
-                self.buy_btc_adv.switch_activity(trigger)
+                self.buy_btc_adv.switch_activity(trigger, clearance)
             case 'sell_bnb':
-                self.sell_bnb_adv.switch_activity(trigger)
+                self.sell_bnb_adv.switch_activity(trigger, clearance)
             case 'buy_bnb':
-                self.buy_bnb_adv.switch_activity(trigger)
+                self.buy_bnb_adv.switch_activity(trigger, clearance)
 
     def get_ads_info(self):
         ads_info = {}
@@ -84,7 +84,7 @@ class Script:
 
         return ads_info
 
-    def update_adv(self,):
+    def update_adv(self, ):
         if self.sell_eth_adv and self.sell_eth_adv.active:
             self.sell_eth_adv.set_new_price()
         if self.buy_eth_adv and self.buy_eth_adv.active:
@@ -103,19 +103,27 @@ class Script:
 
 def main():
     while True:
-        ui.display_info(bot.get_ads_info())
         bot.update_adv()
+        ui.display_info(bot.get_ads_info())
+        sleep(1)
+        os.system('cls')
 
 
 bot = Script()
 bot.get_advs()
 MainWindow.show()
-ui.sell_eth_update_btn.clicked.connect(lambda: bot.switch_activity('sell_eth', ui.sell_eth_active_btn.isChecked()))
-ui.buy_eth_update_btn.clicked.connect(lambda: bot.switch_activity('buy_eth', ui.buy_eth_active_btn.isChecked()))
-ui.sell_btc_update_btn.clicked.connect(lambda: bot.switch_activity('sell_btc', ui.sell_btc_active_btn.isChecked()))
-ui.buy_btc_update_btn.clicked.connect(lambda: bot.switch_activity('buy_btc', ui.buy_btc_active_btn.isChecked()))
-ui.sell_bnb_update_btn.clicked.connect(lambda: bot.switch_activity('sell_bnb', ui.sell_bnb_active_btn.isChecked()))
-ui.buy_bnb_update_btn.clicked.connect(lambda: bot.switch_activity('buy_bnb', ui.buy_bnb_active_btn.isChecked()))
+ui.sell_eth_update_btn.clicked.connect(lambda: bot.switch_activity('sell_eth', ui.sell_eth_active_btn.isChecked(),
+                                                                   ui.sell_eth_clearance_input.text()))
+ui.buy_eth_update_btn.clicked.connect(lambda: bot.switch_activity('buy_eth', ui.buy_eth_active_btn.isChecked(),
+                                                                  ui.buy_eth_clearance_input.text()))
+ui.sell_btc_update_btn.clicked.connect(lambda: bot.switch_activity('sell_btc', ui.sell_btc_active_btn.isChecked(),
+                                                                   ui.sell_btc_clearance_input.text()))
+ui.buy_btc_update_btn.clicked.connect(lambda: bot.switch_activity('buy_btc', ui.buy_btc_active_btn.isChecked(),
+                                                                  ui.buy_btc_clearance_input.text()))
+ui.sell_bnb_update_btn.clicked.connect(lambda: bot.switch_activity('sell_bnb', ui.sell_bnb_active_btn.isChecked(),
+                                                                   ui.sell_bnb_clearance_input.text()))
+ui.buy_bnb_update_btn.clicked.connect(lambda: bot.switch_activity('buy_bnb', ui.buy_bnb_active_btn.isChecked(),
+                                                                  ui.buy_bnb_clearance_input.text()))
 
 thread = threading.Thread(target=main, daemon=True)
 thread.start()
