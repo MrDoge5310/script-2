@@ -240,13 +240,19 @@ class Ui_MainWindow(object):
         ad = ads.get('sell_bnb_adv', None)
         if ad:
             self.sell_bnb_limits_label.setText(f"{ad['min_order_limit']} - {ad['max_order_limit']}")
-            self.sell_bnb_spead_label.setText(f"Зазор: {ad['cur_clearance']} грн, "
-                                              f"{round(ad.get('cur_clearance', 0) / 0.4, 2)}%")
+            if ad['active']:
+                self.sell_bnb_spead_label.setText(f"Зазор: {ad['cur_clearance']} грн, "
+                                                  f"{round(ad.get('cur_clearance', 0) / 0.4, 2)}%")
+            else:
+                self.buy_btc_spead_label.setText("Неактивно")
         ad = ads.get('buy_bnb_adv', None)
         if ad:
             self.buy_bnb_limits_label.setText(f"{ad['min_order_limit']} - {ad['max_order_limit']}")
-            self.buy_bnb_spead_label.setText(f"Зазор: {ad['cur_clearance']} грн, "
-                                              f"{round(ad.get('cur_clearance', 0) / 0.4, 2)}%")
+            if ad['active']:
+                self.buy_bnb_spead_label.setText(f"Зазор: {ad['cur_clearance']} грн, "
+                                                 f"f{round(ad.get('cur_clearance', 0) / 0.4, 2)}%")
+            else:
+                self.buy_btc_spead_label.setText("Неактивно")
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
