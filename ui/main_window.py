@@ -208,8 +208,11 @@ class Ui_MainWindow(object):
         if ad:
             self.sell_eth_limits_label.setText(f"{ad['min_order_limit']} - {ad['max_order_limit']}")
             if ad['active']:
+                clr = ad.get('cur_clearance', 0)
+                if not clr:
+                    clr = 0
                 self.sell_eth_spead_label.setText(f"Зазор: {ad['cur_clearance']} грн, "
-                                                  f"{round(ad.get('cur_clearance', 0) / 0.4, 2)}%")
+                                                  f"{round(clr / 0.4, 2)}%")
             else:
                 self.sell_eth_spead_label.setText("Неактивно")
 
@@ -217,40 +220,56 @@ class Ui_MainWindow(object):
         if ad:
             self.buy_eth_limits_label.setText(f"{ad['min_order_limit']} - {ad['max_order_limit']}")
             if ad['active']:
+                clr = ad.get('cur_clearance', 0)
+                if not clr:
+                    clr = 0
                 self.buy_eth_spead_label.setText(f"Зазор: {ad['cur_clearance']} грн, "
-                                                 f"{round(ad.get('cur_clearance', 0) / 0.4, 2)}%")
+                                                 f"{round(clr / 0.4, 2)}%")
             else:
                 self.buy_eth_spead_label.setText("Неактивно")
+
         ad = ads.get('sell_btc_adv', None)
         if ad:
             self.sell_btc_limits_label.setText(f"{ad['min_order_limit']} - {ad['max_order_limit']}")
             if ad['active']:
+                clr = ad.get('cur_clearance', 0)
+                if not clr:
+                    clr = 0
                 self.sell_btc_spead_label.setText(f"Зазор: {ad['cur_clearance']} грн, "
-                                                  f"{round(ad.get('cur_clearance', 0) / 0.4, 2)}%")
+                                                  f"{round(clr / 0.4, 2)}%")
             else:
                 self.sell_btc_spead_label.setText("Неактивно")
         ad = ads.get('buy_btc_adv', None)
         if ad:
             self.buy_btc_limits_label.setText(f"{ad['min_order_limit']} - {ad['max_order_limit']}")
             if ad['active']:
+                clr = ad.get('cur_clearance', 0)
+                if not clr:
+                    clr = 0
                 self.buy_btc_spead_label.setText(f"Зазор: {ad['cur_clearance']} грн, "
-                                                  f"{round(ad.get('cur_clearance', 0) / 0.4, 2)}%")
+                                                  f"{round(clr / 0.4, 2)}%")
             else:
                 self.buy_btc_spead_label.setText("Неактивно")
         ad = ads.get('sell_bnb_adv', None)
         if ad:
             self.sell_bnb_limits_label.setText(f"{ad['min_order_limit']} - {ad['max_order_limit']}")
             if ad['active']:
+                clr = ad.get('cur_clearance', 0)
+                if not clr:
+                    clr = 0
                 self.sell_bnb_spead_label.setText(f"Зазор: {ad['cur_clearance']} грн, "
-                                                  f"{round(ad.get('cur_clearance', 0) / 0.4, 2)}%")
+                                                  f"{round(clr / 0.4, 2)}%")
             else:
                 self.buy_btc_spead_label.setText("Неактивно")
         ad = ads.get('buy_bnb_adv', None)
         if ad:
             self.buy_bnb_limits_label.setText(f"{ad['min_order_limit']} - {ad['max_order_limit']}")
             if ad['active']:
+                clr = ad.get('cur_clearance', 0)
+                if not clr:
+                    clr = 0
                 self.buy_bnb_spead_label.setText(f"Зазор: {ad['cur_clearance']} грн, "
-                                                 f"f{round(ad.get('cur_clearance', 0) / 0.4, 2)}%")
+                                                 f"f{round(clr / 0.4, 2)}%")
             else:
                 self.buy_btc_spead_label.setText("Неактивно")
 
